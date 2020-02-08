@@ -57,7 +57,12 @@ class GameController extends Controller
     }
     
     public function actionNext() {
-        
+        $score = $this->getScore();
+        $gameModel = new GameModel();
+        $gameRoundArray = $gameModel->getGameRoundArray();
+        \Yii::$app->session->set("gameRoundArray", $gameRoundArray);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return ['score' => $score, 'city_1' => $gameRoundArray['city_1'], 'city_2' => $gameRoundArray['city_2']];
     }
 
     private function getGameRound() {

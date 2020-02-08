@@ -22,5 +22,10 @@ $this->title = 'Game';
    <div data-number="2" class="block_2 city_block"><?= $gameRoundArray['city_2'] ?><br/><span class="temp"></span></div> 
 </div>
 
+<div style="clear: both;"></div> <br/><br/>
+
+<button style="display: none;" type="button" class="button_next btn btn-success">Следующий</button>
+
+
 
 
