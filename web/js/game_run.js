@@ -7,6 +7,7 @@ $(document).ready(function() {
     var activeBlocks = $(".active_blocks");
     var resultBlocks = $(".result_blocks");
     var buttonNext = $(".button_next");
+    var scoreContainer = $(".score");
     
     $('.active_blocks .city_block').click(function() {
         var block = $(this);    
@@ -34,6 +35,7 @@ $(document).ready(function() {
                     headerLose.show();
                 }
                 buttonNext.show();
+                scoreContainer.text(data.score);
             }
         });
     });
@@ -51,6 +53,7 @@ $(document).ready(function() {
                 headerQuestion.show();
                 headerWin.hide();
                 headerLose.hide();
+                scoreContainer.text(data.score);
             }
         });
     });

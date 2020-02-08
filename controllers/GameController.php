@@ -27,6 +27,35 @@ class GameController extends Controller
         return $this->render('run', ['score' => $score, 'gameRoundArray' => $gameRoundArray]);
     }
     
+    public function actionChange_unit() {
+        $unit = Yii::$app->request->post("unit");
+        $user = $this->getUser();
+        $setting = $user->setting;
+        if ($setting == null) {
+            $setting = new Setting();
+            $setting->link('user', $user);
+        }
+        $setting->unit = $unit;
+        $ok = $setting->save();
+        $error = ($ok ? "" : implode(" ", $setting->getErrorSummary(true)));
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return ['ok' => $ok, 'error' => $error];
+    }
+    
+    public function actionSettings() {
+        $user = $this->getUser();
+        $score = $user->getScore();
+        $rounds = $user->gameRounds;
+        $setting = $user->setting;
+        $unit = null;
+        if ($setting && $setting->unit) {
+            $unit = $setting->unit;
+        } else {
+            $unit = Setting::getDefaultUnit();
+        }
+        return $this->render('settings', ['score' => $score, 'rounds' => $rounds, "unit" => $unit]);
+    }
+    
     public function actionSelect() {
         $selected = Yii::$app->request->post("selected");
         $gameRoundArray = \Yii::$app->session->get("gameRoundArray");
@@ -66,6 +95,13 @@ class GameController extends Controller
     }
 
     private function getGameRound() {
+        $user = $this->getUser();
+        $gameRound = new GameRound();
+        $gameRound->link("user", $user);
+        return $gameRound;
+    }
+    
+    private function getUser() {
         $userId = Yii::$app->session->get("user_id");
         $user = null;
         if ($userId) {
@@ -76,13 +112,11 @@ class GameController extends Controller
             $user->save();
             Yii::$app->session->set("user_id", $user->user_id);
         }
-        $gameRound = new GameRound();
-        $gameRound->link("user", $user);
-        return $gameRound;
+        return $user;
     }
 
     private function getScore() {
-        return 0;
+        return $this->getUser()->getScore();
     }
         
 }

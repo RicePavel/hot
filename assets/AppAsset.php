@@ -24,7 +24,8 @@ class AppAsset extends AssetBundle
         'css/game_run.css'
     ];
     public $js = [
-        'js/game_run.js'
+        'js/game_run.js',
+        'js/game_settings.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',
