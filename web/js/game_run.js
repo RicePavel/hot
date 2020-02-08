@@ -8,6 +8,7 @@ $(document).ready(function() {
     var resultBlocks = $(".result_blocks");
     var buttonNext = $(".button_next");
     var scoreContainer = $(".score");
+    var spinner = $(".spinner");
     
     var isBlocked = false;
     
@@ -18,6 +19,7 @@ $(document).ready(function() {
         isBlocked = true;
         var block = $(this);    
         var selected = block.attr('data-number');
+        spinner.show();
         $.ajax({
             url: window.location.protocol + "//" + window.location.host + '/hot/web/index.php?r=game/select',
             method: 'POST',
@@ -34,6 +36,8 @@ $(document).ready(function() {
                 selectedBlock.addClass(cssClass);
                 resultBlocks.find(".block_1 .temp").text(data.temp_text_1);
                 resultBlocks.find(".block_2 .temp").text(data.temp_text_2);
+                resultBlocks.find(".block_1 .city").text(data.city_1);
+                resultBlocks.find(".block_2 .city").text(data.city_2);
                 headerQuestion.hide();
                 if (data.win) {
                     headerWin.show();
@@ -42,6 +46,7 @@ $(document).ready(function() {
                 }
                 buttonNext.show();
                 scoreContainer.text(data.score);
+                spinner.hide();
                 isBlocked = false;
             }
         });
@@ -49,6 +54,7 @@ $(document).ready(function() {
     
     $(".button_next").click(function() {
         buttonNext.hide();
+        spinner.show();
         $.ajax({
             url: window.location.protocol + "//" + window.location.host + '/hot/web/index.php?r=game/next',
             method: 'POST',
@@ -61,6 +67,7 @@ $(document).ready(function() {
                 headerWin.hide();
                 headerLose.hide();
                 scoreContainer.text(data.score);
+                spinner.hide();
             }
         });
     });

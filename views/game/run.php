@@ -23,11 +23,13 @@ $this->title = 'Game';
 </div>
 
 <div class="result_blocks" style="display: none;" >
-   <div data-number="1" class="block_1 city_block"><?= $gameRoundArray['city_1'] ?><br/><span class="temp"></span></div>
-   <div data-number="2" class="block_2 city_block"><?= $gameRoundArray['city_2'] ?><br/><span class="temp"></span></div> 
+    <div data-number="1" class="block_1 city_block"><span class="city"><?= $gameRoundArray['city_1'] ?></span><br/><span class="temp"></span></div>
+   <div data-number="2" class="block_2 city_block"><span class="city"><?= $gameRoundArray['city_2'] ?></span><br/><span class="temp"></span></div> 
 </div>
 
 <div style="clear: both;"></div> <br/><br/>
+
+<div class="spinner lds-dual-ring" style="display: none;" ></div>
 
 <button style="display: none;" type="button" class="button_next btn btn-success">Следующий</button>
 
