@@ -40,7 +40,7 @@ class GameController extends Controller
         } else {
             $win = true;
         }
-        $resultArray = ["selected" => $selected, "win" => $win, "score" => 0, "temp_1" => $temp_1, "temp_2" => $temp_2];
+        $resultArray = ["selected" => $selected, "win" => $win, "score" => 0, "city_1" => $gameRoundArray->city_1, "city_2" => $gameRoundArray->city_2, "temp_1" => $temp_1, "temp_2" => $temp_2];
         if ($gameRoundArray) {
             $gameRound = $this->getGameRound();
             $gameRound->city_1 = $gameRoundArray['city_1'];

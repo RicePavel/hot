@@ -16,6 +16,9 @@ and open the template in the editor.
     font-size: 12pt;
     float: left;
     margin-right: 20px;
+}
+
+.active_block {
     cursor: pointer;
 }
 
