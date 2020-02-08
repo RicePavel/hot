@@ -32,8 +32,8 @@ $(document).ready(function() {
                 var cssClass = data.win ? 'win_block' : 'lose_block';
                 var selectedBlock = resultBlocks.find(".block_" + data.selected);
                 selectedBlock.addClass(cssClass);
-                resultBlocks.find(".block_1 .temp").text(data.temp_1);
-                resultBlocks.find(".block_2 .temp").text(data.temp_2);
+                resultBlocks.find(".block_1 .temp").text(data.temp_text_1);
+                resultBlocks.find(".block_2 .temp").text(data.temp_text_2);
                 headerQuestion.hide();
                 if (data.win) {
                     headerWin.show();

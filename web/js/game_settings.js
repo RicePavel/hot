@@ -9,7 +9,9 @@ $(document).ready(function() {
                 unit: unit
             },
             success: function(data) {
-                if (!data.ok) {
+                if (data.ok) {
+                    location.reload();   
+                } else {
                     alert('Ошибка при выполнении запроса');
                 }
             }

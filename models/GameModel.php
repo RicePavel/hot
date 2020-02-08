@@ -44,7 +44,7 @@ class GameModel extends Model
     }
     
     private function getFullName($cityData) {
-        return $cityData->name . ', ' . $cityData->country;
+        return $cityData->name . ', ' . CountryModel::getCountryName($cityData->country);
     }
     
     private function getTemperature($cityId) {

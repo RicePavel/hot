@@ -31,8 +31,8 @@ $this->title = 'Game';
 
 ?>
     <div class="active_blocks">
-        <div class="city_block <?= ($round->selected == 1 ? $cssClass : "") ?>"><?= $round->city_1 ?><br/><span class="temp"><?= $round->temp_1 ?></span></div>
-        <div class="city_block <?= ($round->selected == 2 ? $cssClass : "") ?>"><?= $round->city_2 ?><br/><span class="temp"><?= $round->temp_2 ?></span></div>
+        <div class="city_block <?= ($round->selected == 1 ? $cssClass : "") ?>"><?= $round->city_1 ?><br/><span class="temp"><?= $round->getTempText_1($setting) ?></span></div>
+        <div class="city_block <?= ($round->selected == 2 ? $cssClass : "") ?>"><?= $round->city_2 ?><br/><span class="temp"><?= $round->getTempText_2($setting) ?></span></div>
     </div>
     <div style="clear: both;"></div> <br/>
 <?php endforeach; ?>
