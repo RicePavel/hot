@@ -9,7 +9,13 @@ $(document).ready(function() {
     var buttonNext = $(".button_next");
     var scoreContainer = $(".score");
     
+    var isBlocked = false;
+    
     $('.active_blocks .city_block').click(function() {
+        if (isBlocked) {
+            return;
+        }
+        isBlocked = true;
         var block = $(this);    
         var selected = block.attr('data-number');
         $.ajax({
@@ -36,6 +42,7 @@ $(document).ready(function() {
                 }
                 buttonNext.show();
                 scoreContainer.text(data.score);
+                isBlocked = false;
             }
         });
     });

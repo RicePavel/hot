@@ -70,6 +70,42 @@ class GameController extends Controller
             $win = true;
         }
         $resultArray = ["selected" => $selected, "win" => $win, "score" => 0, "city_1" => $gameRoundArray->city_1, "city_2" => $gameRoundArray->city_2, "temp_1" => $temp_1, "temp_2" => $temp_2];
+        $user = $this->getUserWithData();
+        $gameRound = new GameRound();
+        if ($gameRoundArray) {
+            $gameRound = $this->getGameRound();
+            $gameRound->city_1 = $gameRoundArray['city_1'];
+            $gameRound->city_2 = $gameRoundArray['city_2'];
+            $gameRound->temp_1 = $temp_1;
+            $gameRound->temp_2 = $temp_2;
+            $gameRound->selected = $selected;
+            $gameRound->score = ($win ? 1 : 0);
+            $gameRound->link('user', $user);
+        }
+        $score = $this->getScoreByUser($user);
+        if ($win) {
+            $score++;
+        }
+        $resultArray['score'] = $score;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return $resultArray;
+    }
+    
+    /*
+    public function actionSelect() {
+        $selected = Yii::$app->request->post("selected");
+        $gameRoundArray = \Yii::$app->session->get("gameRoundArray");
+        $temp_1 = (float) $gameRoundArray['temp_1'];
+        $temp_2 = (float) $gameRoundArray['temp_2'];
+        $win = false;
+        if ($temp_1 > $temp_2) {
+            $win = ($selected == 1 ? true : false);
+        } else if ($temp_2 > $temp_1) {
+            $win = ($selected == 2 ? true : false);
+        } else {
+            $win = true;
+        }
+        $resultArray = ["selected" => $selected, "win" => $win, "score" => 0, "city_1" => $gameRoundArray->city_1, "city_2" => $gameRoundArray->city_2, "temp_1" => $temp_1, "temp_2" => $temp_2];
         if ($gameRoundArray) {
             $gameRound = $this->getGameRound();
             $gameRound->city_1 = $gameRoundArray['city_1'];
@@ -84,6 +120,7 @@ class GameController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         return $resultArray;
     }
+     */
     
     public function actionNext() {
         $score = $this->getScore();
@@ -99,6 +136,34 @@ class GameController extends Controller
         $gameRound = new GameRound();
         $gameRound->link("user", $user);
         return $gameRound;
+    }
+    
+    private function getUserWithData() {
+        $userId = Yii::$app->session->get("user_id");
+        $user = null;
+        if ($userId) {
+            $users = User::find()->where(['user_id' => $userId])->with(['gameRounds', 'setting'])->all();
+            if (count($users) == 1) {
+                $user = $users[0];
+            }
+        }
+        if (!$user) {
+            $user = new User();
+            $user->save();
+            Yii::$app->session->set("user_id", $user->user_id);
+        }
+        return $user; 
+    }
+    
+    private function getScoreByUser($user) {
+        $gameRounds = $user->gameRounds;
+        $score = 0;
+        if ($gameRounds) {
+            foreach ($gameRounds as $round) {
+                $score += $round->score;
+            }
+        }
+        return $score;
     }
     
     private function getUser() {
@@ -117,6 +182,14 @@ class GameController extends Controller
 
     private function getScore() {
         return $this->getUser()->getScore();
+    }
+    
+    private function kelvinToCelsius($grad) {
+        return $grad - 273.15;
+    }
+    
+    private function kelvinToFarengheit($grad) {
+        return 1.8 * ($grad - 273) + 32;
     }
         
 }
